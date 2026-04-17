@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+
+/* --- UNIVERSAL TRANSITIONS --- */
+.main-wrapper { 
+    min-height: 100vh; 
+    transition: background 0.8s ease, opacity 0.5s ease, filter 0.5s ease; 
+}
+
+.fade-in { opacity: 1; filter: blur(0px); }
+.fade-out { opacity: 0; filter: blur(10px); }
+
+/* --- HOME PAGE --- */
+.home-view { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.bloom-title { font-size: 3.5rem; font-weight: 600; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.bloom-subtitle { font-family: monospace; letter-spacing: 8px; font-size: 0.9rem; text-transform: uppercase; margin: 10px 0 50px; color: #1a1a1a; }
+.bloom-button-container { display: flex; gap: 40px; }
+
+.bloom-btn { width: 200px; height: 55px; border-radius: 12px; border: none; color: white; font-weight: 600; cursor: pointer; transition: 0.4s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.bloom-btn:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(255, 235, 59, 0.7), 0 10px 30px rgba(0,0,0,0.3); }
+.mind-btn { background: #0288D1; }
+.identity-btn { background: #6A1B9A; }
+
+/* --- NAVBAR --- */
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-home-btn-hover { border: 2px solid #0288D1; color: #0288D1; padding: 6px 22px; border-radius: 20px; cursor: pointer; background: transparent; transition: 0.3s; font-weight: 600; }
+.nav-home-btn-hover:hover { background: #0288D1; color: white; }
+.logout-btn { border: 2px solid #ff5252; color: #ff5252; padding: 6px 20px; border-radius: 20px; cursor: pointer; background: transparent; font-weight: 600; transition: 0.3s; }
+.logout-btn:hover { background: #ff5252; color: white; }
+
+/* --- FEATURE CARDS --- */
+.section-container { overflow-y: auto; height: 100vh; }
+.inner-content { padding: 60px 20px; text-align: center; }
+.card-grid-single-line { display: flex; justify-content: center; gap: 20px; max-width: 1400px; margin: 0 auto; flex-wrap: wrap; }
+.feature-card-small { background: white; padding: 30px 20px; border-radius: 25px; flex: 1; min-width: 200px; max-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; cursor: pointer; }
+.feature-card-small:hover { transform: translateY(-10px); }
+.card-icon-small { font-size: 3rem; margin-bottom: 10px; }
+
+/* --- GATEWAY OVERLAY --- */
+.gateway-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); z-index: 3000; display: flex; align-items: center; justify-content: center; }
+.gateway-box { width: 500px; padding: 50px; background: white; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: center; animation: slideUp 0.5s ease; }
+.gateway-icon { font-size: 4rem; margin-bottom: 20px; }
+.gateway-thought { font-style: italic; font-size: 1.2rem; color: #555; line-height: 1.6; margin: 30px 0; }
+.proceed-btn { width: 100%; padding: 15px; border: none; border-radius: 15px; color: white; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.gateway-cancel { background: none; border: none; color: #999; margin-top: 20px; cursor: pointer; text-decoration: underline; }
+
+/* --- BREATHING EXERCISE UI --- */
+.breath-overlay-minimal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #E1F5FE; z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.breath-quit-btn { position: absolute; top: 40px; right: 50px; background: none; border: none; font-size: 3.5rem; color: #ff5252; cursor: pointer; z-index: 5000; }
+.breath-stage { display: flex; flex-direction: column; align-items: center; gap: 80px; }
+.breath-circle-floating { width: 200px; height: 200px; background: rgba(2, 136, 209, 0.05); border: 1.5px solid #0288D1; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 4s ease-in-out; }
+.breath-circle-floating.Inhale { transform: scale(2.2); background: rgba(2, 136, 209, 0.15); }
+.breath-circle-floating.Hold { transform: scale(2.2); }
+.breath-circle-floating.Exhale { transform: scale(1); }
+.breath-dot { width: 8px; height: 8px; background: #0288D1; border-radius: 50%; }
+.breath-instruction-minimal { font-family: monospace; font-size: 1.3rem; color: #0288D1; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; }
+
+/* --- COGNITIVE CIRCUIT (BRAIN EXERCISE) UI --- */
+.brain-exercise-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.brain-container { text-align: center; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px); padding: 50px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); width: 600px; min-height: 450px; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: slideUp 0.5s ease; }
+.brain-title { color: #0288D1; font-size: 2.5rem; margin-bottom: 5px; }
+.brain-sub { color: #555; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; }
+.circuit-progress { display: flex; gap: 10px; margin-bottom: 30px; }
+.progress-dot { width: 12px; height: 12px; border-radius: 50%; background: #ccc; transition: 0.3s; }
+.progress-dot.active { background: #0288D1; transform: scale(1.3); }
+.progress-dot.completed { background: #4CAF50; }
+
+/* Sync Game */
+.brain-grid { display: grid; grid-template-columns: repeat(3, 90px); gap: 15px; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin: 0 auto; }
+.brain-tile { width: 90px; height: 90px; background: #f0f0f0; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+.brain-tile:hover { background: #e0e0e0; }
+.brain-tile.active { background: #0288D1; transform: scale(0.95); box-shadow: 0 0 20px rgba(2, 136, 209, 0.5); }
+
+/* Word & Math Games */
+.game-prompt { font-size: 3rem; font-weight: 600; color: #0288D1; letter-spacing: 5px; margin-bottom: 20px; }
+.game-input { font-size: 1.5rem; padding: 15px 30px; text-align: center; border: 2px solid #0288D1; border-radius: 50px; outline: none; width: 80%; color: #333; text-transform: uppercase; background: white; transition: 0.3s; }
+.game-input:focus { box-shadow: 0 0 20px rgba(2, 136, 209, 0.2); }
+.game-submit-btn { background: #0288D1; color: white; border: none; padding: 15px 40px; border-radius: 50px; font-weight: 600; cursor: pointer; margin-top: 20px; font-size: 1.1rem; transition: 0.3s; }
+.game-submit-btn:hover { background: #0277BD; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(2, 136, 209, 0.3); }
+
+/* Feedback */
+.feedback-text { height: 24px; font-weight: 600; margin-top: 15px; font-size: 1.1rem; }
+.feedback-success { color: #4CAF50; }
+.feedback-error { color: #ff5252; animation: shake 0.4s; }
+
+/* Completion */
+.completion-icon { font-size: 5rem; margin-bottom: 20px; animation: bounce 2s infinite; }
+
+/* --- MEDITATION EXERCISE UI --- */
+.meditation-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #E1F5FE; z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.meditation-container { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
+.meditation-timer-circle { position: relative; width: 320px; height: 320px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 50%; box-shadow: 0 15px 40px rgba(2, 136, 209, 0.1); }
+.timer-svg { position: absolute; width: 320px; height: 320px; transform: rotate(-90deg); }
+.timer-svg circle.bg-circle { fill: none; stroke: #0288D1; stroke-width: 4; opacity: 0.1; }
+.timer-svg circle.progress-circle { fill: none; stroke: #0288D1; stroke-width: 4; stroke-linecap: round; }
+.timer-display { display: flex; flex-direction: column; z-index: 2; align-items: center; }
+.time-numbers { font-size: 5rem; color: #0288D1; font-weight: 300; line-height: 1; }
+.focus-container { display: flex; flex-direction: column; align-items: center; margin-top: 10px; }
+.focus-label { font-size: 0.7rem; color: #0288D1; letter-spacing: 4px; opacity: 0.5; font-weight: 600; }
+.focus-word { font-size: 1.1rem; color: #0288D1; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; }
+.time-selector { display: flex; gap: 15px; margin-bottom: 10px; }
+.time-selector button { background: white; border: 1px solid rgba(2, 136, 209, 0.3); color: #0288D1; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+.time-selector button.active { border-color: #0288D1; background: #0288D1; color: white; }
+.med-start-stop { background: #0288D1; color: white; border: none; padding: 18px 60px; border-radius: 35px; font-size: 1.2rem; font-weight: 600; cursor: pointer; box-shadow: 0 10px 25px rgba(2, 136, 209, 0.2); }
+
+/* --- NATURE AUDIO UI --- */
+.nature-audio-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #E1F5FE; z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.nature-container { width: 900px; text-align: center; }
+.nature-title { color: #0288D1; font-size: 2.8rem; margin-bottom: 5px; }
+.nature-sub { color: #555; margin-bottom: 40px; font-style: italic; }
+.audio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; padding: 20px; }
+.audio-card { background: white; padding: 40px 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s ease; border: 2px solid transparent; }
+.audio-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(2, 136, 209, 0.1); }
+.audio-card.active-playing { border-color: #0288D1; background: #f0faff; }
+.audio-icon { font-size: 3.5rem; margin-bottom: 15px; }
+.play-indicator { font-size: 0.8rem; font-weight: 600; color: #0288D1; margin-top: 10px; }
+.now-playing-bar { margin-top: 50px; padding: 15px 30px; background: white; border-radius: 50px; display: inline-block; box-shadow: 0 5px 15px rgba(0,0,0,0.05); animation: slideUp 0.5s ease; }
+
+/* --- STRESS SHIELD UI --- */
+.stress-shield-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #E1F5FE; z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.shield-container { width: 800px; text-align: center; padding: 20px; }
+.shield-title { color: #0288D1; font-size: 2.5rem; }
+.shield-sub { color: #555; margin-bottom: 30px; font-style: italic; }
+.journal-input { width: 100%; height: 300px; padding: 30px; border-radius: 20px; border: 2px solid rgba(2, 136, 209, 0.2); font-size: 1.1rem; background: white; resize: none; outline: none; }
+.reflect-btn { background: #0288D1; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: 600; cursor: pointer; margin-top: 25px; }
+.ai-response-box { margin-top: 30px; padding: 25px; background: white; border-left: 5px solid #0288D1; border-radius: 15px; text-align: left; }
+.ai-text { font-style: italic; color: #333; line-height: 1.6; }
+.clear-shield-btn { background: none; border: none; color: #0288D1; text-decoration: underline; cursor: pointer; }
+
+/* --- QUIT MODAL --- */
+.quit-confirm-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 6000; }
+.quit-box { width: 450px; padding: 40px; background: white; border-radius: 30px; text-align: center; }
+.quit-actions { display: flex; gap: 15px; margin-top: 20px; }
+.quit-yes { flex: 1; padding: 12px; background: #ff5252; color: white; border: none; border-radius: 12px; cursor: pointer; }
+.quit-no { flex: 1; padding: 12px; background: #0288D1; color: white; border: none; border-radius: 12px; cursor: pointer; }
+
+/* --- AUTH POPUP --- */
+.auth-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 4000; visibility: hidden; opacity: 0; transition: 0.5s; }
+.auth-overlay.active { visibility: visible; opacity: 1; }
+.auth-box { background: white; width: 850px; border-radius: 30px; display: flex; overflow: hidden; transform: scale(0.9); transition: 0.5s; }
+.auth-overlay.active .auth-box { transform: scale(1); }
+.auth-left { width: 40%; padding: 40px; color: white; display: flex; align-items: center; text-align: center; }
+.auth-quote { font-style: italic; font-size: 1.2rem; line-height: 1.6; }
+.auth-right { width: 60%; padding: 50px; display: flex; flex-direction: column; justify-content: center; }
+.auth-input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; }
+.auth-submit-btn { width: 100%; padding: 14px; border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; }
+.auth-switch { cursor: pointer; text-decoration: underline; text-align: center; margin-top: 15px; font-size: 0.9rem; }
+
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
