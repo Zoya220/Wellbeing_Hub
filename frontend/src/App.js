@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './App.css'; 
 import bgImage from './background.jpg'; 
 
-// --- NEW AUDIO IMPORTS ---
+// --- LOCAL AUDIO IMPORTS ---
 import birdsChirpingMp3 from './birds-chirping.mp3';
 import calmMp3 from './calm.mp3';
 import rainMp3 from './rain.mp3';
@@ -45,41 +45,74 @@ function App() {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [audioElement, setAudioElement] = useState(null);
 
+  // --- COMMUNICATION STATES ---
+  const [showCommunication, setShowCommunication] = useState(false);
+  const [commDraft, setCommDraft] = useState("");
+  const [commResult, setCommResult] = useState("");
+  const [isRefining, setIsRefining] = useState(false);
+
+  // --- CONFIDENCE STATES ---
+  const [showConfidence, setShowConfidence] = useState(false);
+  const [poseTimer, setPoseTimer] = useState(120); 
+  const [isPoseActive, setIsPoseActive] = useState(false);
+
+  // --- DECISION MAKING STATES ---
+  const [showDecisionMaking, setShowDecisionMaking] = useState(false);
+  const [dilemma, setDilemma] = useState("");
+  const [frameworkResult, setFrameworkResult] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  // --- LEADERSHIP STATES ---
+  const [showLeadership, setShowLeadership] = useState(false);
+  const [critiqueInput, setCritiqueInput] = useState("");
+  const [feedbackResult, setFeedbackResult] = useState("");
+  const [isReframing, setIsReframing] = useState(false);
+
+  // --- TIME MANAGEMENT STATES ---
+  const [showTimeMgmt, setShowTimeMgmt] = useState(false);
+  const [tasks, setTasks] = useState([
+    { id: 1, type: 'big', text: '', done: false },
+    { id: 2, type: 'med', text: '', done: false },
+    { id: 3, type: 'med', text: '', done: false },
+    { id: 4, type: 'med', text: '', done: false },
+    { id: 5, type: 'small', text: '', done: false },
+    { id: 6, type: 'small', text: '', done: false },
+    { id: 7, type: 'small', text: '', done: false },
+    { id: 8, type: 'small', text: '', done: false },
+    { id: 9, type: 'small', text: '', done: false }
+  ]);
+
   // ==========================================
   // --- COGNITIVE CIRCUIT (BRAIN EXERCISE) ---
   // ==========================================
   const [showBrainExercise, setShowBrainExercise] = useState(false);
-  const [circuitStage, setCircuitStage] = useState(1); // 1: Sync, 2: Word, 3: Math, 4: Done
+  const [circuitStage, setCircuitStage] = useState(1); 
   const [circuitFeedback, setCircuitFeedback] = useState({ type: '', text: '' });
   const inputRef = useRef(null);
 
-  // Game 1: Neural Sync States
   const [brainSequence, setBrainSequence] = useState([]);
   const [userSequence, setUserSequence] = useState([]);
   const [isWatching, setIsWatching] = useState(false);
   const [highlightedGrid, setHighlightedGrid] = useState(null);
-  const syncTargetScore = 3; // Number of successful rounds to pass stage 1
+  const syncTargetScore = 3; 
 
-  // Game 2: Word Scramble States
   const mindWords = ["FOCUS", "PEACE", "BREATHE", "CALM", "CLARITY"];
   const [currentWord, setCurrentWord] = useState("");
   const [scrambledWord, setScrambledWord] = useState("");
   const [wordInput, setWordInput] = useState("");
   const [wordsSolved, setWordsSolved] = useState(0);
-  const wordsTargetScore = 2; // Words to solve to pass stage 2
+  const wordsTargetScore = 2; 
 
-  // Game 3: Quick Math States
   const [mathEquation, setMathEquation] = useState({ q: "", a: 0 });
   const [mathInput, setMathInput] = useState("");
   const [mathSolved, setMathSolved] = useState(0);
-  const mathTargetScore = 3; // Equations to solve to pass stage 3
+  const mathTargetScore = 3; 
 
   // ==========================================
   // --- STATIC DATA ---
   // ==========================================
   const focusWords = ["Peace", "Stillness", "Clarity", "Presence", "Gratitude", "Softness"];
 
-  // UPDATED: Added local files to the array alongside their download references
   const natureSounds = [
     { id: 'rain', title: 'Summer Rain', icon: '🌧️', url: rainMp3, downloadFile: rainMp3 }, 
     { id: 'forest', title: 'Deep Forest', icon: '🌲', url: 'https://cdn.pixabay.com/audio/2022/03/24/audio_732230009c.mp3' },
@@ -96,7 +129,10 @@ function App() {
     "Nature Audio": { thought: "Nature does not hurry, yet everything is accomplished.", icon: "🍃", color: "#0288D1" },
     "Stress Shield": { thought: "To name a worry is to begin to tame it.", icon: "🛡️", color: "#0288D1" },
     "Confidence": { thought: "Believe in the person you are becoming.", icon: "🦁", color: "#6A1B9A" },
-    "Leadership": { thought: "To lead others, master oneself first.", icon: "👑", color: "#6A1B9A" }
+    "Communication": { thought: "Clear thoughts lead to clear words.", icon: "🗣️", color: "#6A1B9A" },
+    "Decision Making": { thought: "Objectivity is the enemy of anxiety.", icon: "⚖️", color: "#6A1B9A" },
+    "Leadership": { thought: "Great leaders critique the work, not the person.", icon: "👑", color: "#6A1B9A" },
+    "Time Mgmt": { thought: "Focus on being productive instead of busy.", icon: "⏳", color: "#6A1B9A" }
   };
 
   const authQuotes = {
@@ -148,7 +184,20 @@ function App() {
     return () => clearInterval(interval);
   }, [isActive, meditationTime, showQuitConfirm]);
 
-  // Focus input automatically when stage changes
+  useEffect(() => {
+    let interval = null;
+    if (isPoseActive && poseTimer > 0 && !showQuitConfirm) {
+      interval = setInterval(() => {
+        setPoseTimer((time) => time - 1);
+      }, 1000);
+    } else if (poseTimer === 0) {
+      setIsPoseActive(false);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isPoseActive, poseTimer, showQuitConfirm]);
+
   useEffect(() => {
     if ((circuitStage === 2 || circuitStage === 3) && showBrainExercise) {
       setTimeout(() => { if (inputRef.current) inputRef.current.focus(); }, 100);
@@ -221,7 +270,6 @@ function App() {
     startSyncGame();
   };
 
-  // Stage 1 Logic
   const startSyncGame = () => {
     const firstStep = Math.floor(Math.random() * 9);
     setBrainSequence([firstStep]);
@@ -267,7 +315,6 @@ function App() {
     }
   };
 
-  // Stage 2 Logic
   const startWordGame = () => {
     setCircuitStage(2);
     setWordsSolved(0);
@@ -279,7 +326,6 @@ function App() {
     const word = mindWords[Math.floor(Math.random() * mindWords.length)];
     setCurrentWord(word);
     let scrambled = word.split('').sort(() => 0.5 - Math.random()).join('');
-    // Ensure it's actually scrambled
     while(scrambled === word) {
         scrambled = word.split('').sort(() => 0.5 - Math.random()).join('');
     }
@@ -304,7 +350,6 @@ function App() {
     }
   };
 
-  // Stage 3 Logic
   const startMathGame = () => {
     setCircuitStage(3);
     setMathSolved(0);
@@ -343,6 +388,74 @@ function App() {
   };
 
   // ==========================================
+  // --- IDENTITY BLOOM LOGIC ---
+  // ==========================================
+  const handleRefinePitch = () => {
+    if (!commDraft.trim()) return;
+    setIsRefining(true);
+    
+    setTimeout(() => {
+      setCommResult(
+        "Here is a more formalized, structured version of your draft:\n\n" +
+        "1. Hook: Start with the core problem you are solving.\n" +
+        "2. Value: Clearly state your solution (e.g., 'This platform utilizes...').\n" +
+        "3. Ask: End with a clear call to action or next step."
+      );
+      setIsRefining(false);
+    }, 1500);
+  };
+
+  const handleAnalyzeDecision = (frameworkType) => {
+    if (!dilemma.trim()) return;
+    setIsAnalyzing(true);
+    setFrameworkResult("");
+    
+    setTimeout(() => {
+      let result = "";
+      switch (frameworkType) {
+        case 'inversion':
+          result = `🔍 Inversion Analysis:\nInstead of asking how to succeed, ask: "What is the absolute worst-case scenario if I proceed with this, and how do I guarantee failure?"\n\nAction: Identify those failure points and build safeguards against them.`;
+          break;
+        case 'eisenhower':
+          result = `⏳ Eisenhower Matrix:\n1. Is this critical to your long-term goals? (Important)\n2. Is there a strict, immediate deadline? (Urgent)\n\nAction: If it's both, do it now. If just important, schedule it. If just urgent, delegate or automate it. If neither, drop it.`;
+          break;
+        case 'safety':
+          result = `🛡️ Margin of Safety:\nDoes this decision leave room for error? If your primary assumption is wrong, what is the intrinsic value you fall back on?\n\nAction: Never optimize for 100% efficiency if it means a 0% survival rate on failure. Build in a buffer.`;
+          break;
+        default:
+          result = "Model applied.";
+      }
+      setFrameworkResult(result);
+      setIsAnalyzing(false);
+    }, 1200);
+  };
+
+  const handleReframeFeedback = () => {
+    if (!critiqueInput.trim()) return;
+    setIsReframing(true);
+    
+    setTimeout(() => {
+      setFeedbackResult(
+        "Here is a constructive way to frame this using the SBI Model:\n\n" +
+        "📍 Situation: State exactly where and when this happened to anchor the conversation.\n" +
+        "👀 Behavior: Describe the observable action without assuming their intent.\n" +
+        "💥 Impact: Explain how this behavior specifically affected the team or project timeline.\n\n" +
+        "💡 Ask: End with 'How can we work together to resolve this moving forward?' to invite collaboration."
+      );
+      setIsReframing(false);
+    }, 1500);
+  };
+
+  // 1-3-5 List Handlers
+  const handleTaskChange = (id, newText) => {
+    setTasks(tasks.map(t => t.id === id ? { ...t, text: newText } : t));
+  };
+  
+  const handleTaskToggle = (id) => {
+    setTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+  };
+
+  // ==========================================
   // --- NAVIGATION & PROCEED ---
   // ==========================================
   const handleFeatureClick = (title) => {
@@ -355,6 +468,8 @@ function App() {
   const handleProceed = () => {
     transitionTo(() => {
       setShowGateway(false);
+      
+      // Mind Bloom
       if (activeFeatureTitle === "Breathing") setShowBreathing(true);
       if (activeFeatureTitle === "Meditation") {
           setShowMeditation(true);
@@ -363,6 +478,13 @@ function App() {
       if (activeFeatureTitle === "Stress Shield") setShowStressShield(true);
       if (activeFeatureTitle === "Nature Audio") setShowNatureAudio(true);
       if (activeFeatureTitle === "Cognitive Circuit") startCircuit();
+      
+      // Identity Bloom
+      if (activeFeatureTitle === "Communication") setShowCommunication(true);
+      if (activeFeatureTitle === "Confidence") setShowConfidence(true);
+      if (activeFeatureTitle === "Decision Making") setShowDecisionMaking(true);
+      if (activeFeatureTitle === "Leadership") setShowLeadership(true);
+      if (activeFeatureTitle === "Time Mgmt") setShowTimeMgmt(true);
     });
   };
 
@@ -374,12 +496,28 @@ function App() {
       setShowStressShield(false);
       setShowNatureAudio(false);
       setShowBrainExercise(false);
+      setShowCommunication(false);
+      setShowConfidence(false);
+      setShowDecisionMaking(false);
+      setShowLeadership(false);
+      setShowTimeMgmt(false);
       
       setIsActive(false);
       setJournalEntry("");
       setAiResponse("");
       setMeditationTime(initialMeditationTime);
       setBreathPhase('Inhale');
+      
+      setCommDraft("");
+      setCommResult("");
+      setIsPoseActive(false);
+      setPoseTimer(120);
+
+      setDilemma("");
+      setFrameworkResult("");
+      
+      setCritiqueInput("");
+      setFeedbackResult("");
       
       if (audioElement) {
         audioElement.pause();
@@ -421,8 +559,6 @@ function App() {
   };
 
   const activeTheme = themes[mode];
-
-  // Meditation Circle Logic
   const radius = 140;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (meditationTime / initialMeditationTime) * circumference;
@@ -482,6 +618,8 @@ function App() {
         </div>
       )}
 
+      {/* --- MIND BLOOM OVERLAYS --- */}
+
       {/* BREATHING */}
       {showBreathing && (
         <div className="breath-overlay-minimal">
@@ -495,20 +633,17 @@ function App() {
         </div>
       )}
 
-      {/* COGNITIVE CIRCUIT (Multi-Stage Game) */}
+      {/* COGNITIVE CIRCUIT */}
       {showBrainExercise && (
         <div className="brain-exercise-overlay">
           <button className="breath-quit-btn" onClick={() => setShowQuitConfirm(true)}>×</button>
           <div className="brain-container">
-            
-            {/* Progress Dots */}
             <div className="circuit-progress">
                 <div className={`progress-dot ${circuitStage >= 1 ? (circuitStage > 1 ? 'completed' : 'active') : ''}`}></div>
                 <div className={`progress-dot ${circuitStage >= 2 ? (circuitStage > 2 ? 'completed' : 'active') : ''}`}></div>
                 <div className={`progress-dot ${circuitStage >= 3 ? (circuitStage > 3 ? 'completed' : 'active') : ''}`}></div>
             </div>
 
-            {/* Stage 1: Neural Sync */}
             {circuitStage === 1 && (
               <>
                 <h1 className="brain-title">Phase 1: Memory Sync</h1>
@@ -525,7 +660,6 @@ function App() {
               </>
             )}
 
-            {/* Stage 2: Clarity Scramble */}
             {circuitStage === 2 && (
               <>
                 <h1 className="brain-title">Phase 2: Clarity</h1>
@@ -547,7 +681,6 @@ function App() {
               </>
             )}
 
-            {/* Stage 3: Logic Flow */}
             {circuitStage === 3 && (
               <>
                 <h1 className="brain-title">Phase 3: Flow State</h1>
@@ -569,7 +702,6 @@ function App() {
               </>
             )}
 
-            {/* Stage 4: Completion */}
             {circuitStage === 4 && (
               <>
                 <div className="completion-icon">🌟</div>
@@ -581,13 +713,11 @@ function App() {
               </>
             )}
 
-            {/* Global Feedback Text */}
             {circuitStage < 4 && (
               <div className={`feedback-text ${circuitFeedback.type === 'error' ? 'feedback-error' : 'feedback-success'}`}>
                 {circuitFeedback.text}
               </div>
             )}
-
           </div>
         </div>
       )}
@@ -682,29 +812,27 @@ function App() {
                     {currentTrack?.id === track.id ? "⏸ Playing" : "▶ Listen"}
                   </div>
                   
-                  {/* UPDATED: Download Link Logic added here */}
                   {track.downloadFile && (
                     <a 
                       href={track.downloadFile} 
                       download={`${track.title.replace(/\s+/g, '-').toLowerCase()}.mp3`}
                       className="download-btn"
                       onClick={(e) => e.stopPropagation()} 
-                      // style={{ 
-                      //   display: 'inline-block', 
-                      //   marginTop: '10px', 
-                      //   fontSize: '0.85rem', 
-                      //   color: '#0288D1', 
-                      //   textDecoration: 'none',
-                      //   fontWeight: 'bold',
-                      //   padding: '4px 8px',
-                      //   borderRadius: '4px',
-                      //   background: 'rgba(2, 136, 209, 0.1)'
-                      // }}
+                      style={{ 
+                        display: 'inline-block', 
+                        marginTop: '10px', 
+                        fontSize: '0.85rem', 
+                        color: '#0288D1', 
+                        textDecoration: 'none',
+                        fontWeight: 'bold',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        background: 'rgba(2, 136, 209, 0.1)'
+                      }}
                     >
-                      {/* ⬇️ Download */}
+                      ⬇️ Download
                     </a>
                   )}
-
                 </div>
               ))}
             </div>
@@ -716,6 +844,230 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* --- IDENTITY BLOOM OVERLAYS --- */}
+
+      {/* COMMUNICATION MODULE */}
+      {showCommunication && (
+        <div className="stress-shield-overlay" style={{ background: 'rgba(74, 20, 140, 0.95)' }}>
+          <button className="breath-quit-btn" onClick={() => setShowQuitConfirm(true)}>×</button>
+          <div className="shield-container">
+            <h1 className="shield-title" style={{ color: '#E1BEE7' }}>Pitch Perfector</h1>
+            <p className="shield-sub" style={{ color: '#F3E5F5' }}>Draft your email, interview answer, or project pitch. Let's refine it for clarity and impact.</p>
+            <textarea 
+              className="journal-input" 
+              placeholder="Paste your rough draft here..."
+              value={commDraft}
+              onChange={(e) => setCommDraft(e.target.value)}
+              style={{ borderLeft: '4px solid #9C27B0' }}
+            />
+            <div className="shield-actions">
+              <button 
+                className="reflect-btn" 
+                onClick={handleRefinePitch} 
+                disabled={isRefining || !commDraft}
+                style={{ background: '#7B1FA2', color: 'white' }}
+              >
+                {isRefining ? "Refining..." : "Formalize Draft"}
+              </button>
+            </div>
+            {commResult && (
+              <div className="ai-response-box" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <p className="ai-text" style={{ whiteSpace: 'pre-line', color: 'white' }}>{commResult}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* CONFIDENCE MODULE */}
+      {showConfidence && (
+        <div className="meditation-overlay" style={{ background: 'rgba(74, 20, 140, 0.95)' }}>
+          <button className="breath-quit-btn" onClick={() => setShowQuitConfirm(true)}>×</button>
+          <div className="meditation-container">
+            <h1 className="shield-title" style={{ color: '#E1BEE7', textAlign: 'center', marginBottom: '10px' }}>Power Posture</h1>
+            <p className="shield-sub" style={{ color: '#F3E5F5', textAlign: 'center', marginBottom: '30px' }}>
+              Stand up. Shoulders back. Chin up. Hold for 2 minutes to lower cortisol and boost presence.
+            </p>
+            
+            <div className="meditation-timer-circle">
+               <svg className="timer-svg" viewBox="0 0 320 320">
+                  <circle className="bg-circle" cx="160" cy="160" r={radius} stroke="rgba(255,255,255,0.1)"></circle>
+                  <circle 
+                    className="progress-circle" 
+                    cx="160" cy="160" r={radius}
+                    stroke="#CE93D8"
+                    style={{ 
+                      strokeDasharray: circumference, 
+                      strokeDashoffset: circumference - (poseTimer / 120) * circumference,
+                      transition: 'stroke-dashoffset 1s linear'
+                    }}
+                  ></circle>
+              </svg>
+              <div className="timer-display">
+                  <span className="time-numbers" style={{ color: 'white' }}>{formatTime(poseTimer)}</span>
+                  {poseTimer === 0 && <span style={{display: 'block', color: '#CE93D8', marginTop: '10px', fontSize: '1.2rem', fontWeight: 'bold'}}>You are ready.</span>}
+              </div>
+            </div>
+            
+            <div className="meditation-controls" style={{ marginTop: '40px' }}>
+              <button 
+                className={`med-start-stop ${isPoseActive ? "active-session" : ""}`} 
+                onClick={() => setIsPoseActive(!isPoseActive)}
+                style={{ background: isPoseActive ? 'transparent' : '#7B1FA2', border: isPoseActive ? '2px solid #7B1FA2' : 'none' }}
+              >
+                  {isPoseActive ? "Pause" : (poseTimer === 0 ? "Reset" : "Start Pose")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* DECISION MAKING MODULE */}
+      {showDecisionMaking && (
+        <div className="stress-shield-overlay" style={{ background: 'rgba(74, 20, 140, 0.95)' }}>
+          <button className="breath-quit-btn" onClick={() => setShowQuitConfirm(true)}>×</button>
+          <div className="shield-container">
+            <h1 className="shield-title" style={{ color: '#E1BEE7' }}>Mental Models</h1>
+            <p className="shield-sub" style={{ color: '#F3E5F5' }}>Define your dilemma and view it through a proven framework.</p>
+            
+            <textarea 
+              className="journal-input" 
+              placeholder="What decision are you currently weighing? (e.g., Should I pivot to a new tech stack?)"
+              value={dilemma}
+              onChange={(e) => setDilemma(e.target.value)}
+              style={{ borderLeft: '4px solid #AB47BC', height: '100px', minHeight: '100px' }}
+            />
+            
+            <div className="bloom-button-container" style={{ justifyContent: 'center', flexWrap: 'wrap', gap: '10px', marginTop: '15px' }}>
+              <button 
+                className="bloom-btn"
+                onClick={() => handleAnalyzeDecision('inversion')} 
+                disabled={isAnalyzing || !dilemma}
+                style={{ background: '#8E24AA', fontSize: '0.9rem', padding: '10px 15px' }}
+              >
+                Inversion
+              </button>
+              <button 
+                className="bloom-btn"
+                onClick={() => handleAnalyzeDecision('eisenhower')} 
+                disabled={isAnalyzing || !dilemma}
+                style={{ background: '#7B1FA2', fontSize: '0.9rem', padding: '10px 15px' }}
+              >
+                Eisenhower Matrix
+              </button>
+              <button 
+                className="bloom-btn"
+                onClick={() => handleAnalyzeDecision('safety')} 
+                disabled={isAnalyzing || !dilemma}
+                style={{ background: '#6A1B9A', fontSize: '0.9rem', padding: '10px 15px' }}
+              >
+                Margin of Safety
+              </button>
+            </div>
+
+            {isAnalyzing && <p style={{color: '#CE93D8', textAlign: 'center', marginTop: '20px'}}>Applying framework...</p>}
+
+            {frameworkResult && (
+              <div className="ai-response-box" style={{ background: 'rgba(255,255,255,0.1)', marginTop: '20px' }}>
+                <p className="ai-text" style={{ whiteSpace: 'pre-line', color: 'white', fontSize: '0.95rem' }}>{frameworkResult}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* LEADERSHIP MODULE */}
+      {showLeadership && (
+        <div className="stress-shield-overlay" style={{ background: 'rgba(74, 20, 140, 0.95)' }}>
+          <button className="breath-quit-btn" onClick={() => setShowQuitConfirm(true)}>×</button>
+          <div className="shield-container">
+            <h1 className="shield-title" style={{ color: '#E1BEE7' }}>Feedback Framer</h1>
+            <p className="shield-sub" style={{ color: '#F3E5F5' }}>Great leaders critique the work, not the person. Reframe your raw feedback.</p>
+            
+            <textarea 
+              className="journal-input" 
+              placeholder="What do you want to tell your team member? (e.g., 'Your code is messy and broke the build.')"
+              value={critiqueInput}
+              onChange={(e) => setCritiqueInput(e.target.value)}
+              style={{ borderLeft: '4px solid #AB47BC', height: '120px', minHeight: '120px' }}
+            />
+            
+            <div className="shield-actions">
+              <button 
+                className="reflect-btn" 
+                onClick={handleReframeFeedback} 
+                disabled={isReframing || !critiqueInput}
+                style={{ background: '#7B1FA2', color: 'white' }}
+              >
+                {isReframing ? "Reframing..." : "Generate Constructive Feedback"}
+              </button>
+            </div>
+
+            {feedbackResult && (
+              <div className="ai-response-box" style={{ background: 'rgba(255,255,255,0.1)', marginTop: '20px' }}>
+                <p className="ai-text" style={{ whiteSpace: 'pre-line', color: 'white', fontSize: '0.95rem' }}>{feedbackResult}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* TIME MANAGEMENT MODULE */}
+      {showTimeMgmt && (
+        <div className="stress-shield-overlay" style={{ background: 'rgba(74, 20, 140, 0.95)', alignItems: 'flex-start', paddingTop: '5vh' }}>
+          <button className="breath-quit-btn" onClick={() => setShowQuitConfirm(true)}>×</button>
+          <div className="shield-container" style={{ width: '900px', display: 'flex', flexDirection: 'column', height: '90vh', padding: '0 20px' }}>
+            <h1 className="shield-title" style={{ color: '#E1BEE7' }}>The 1-3-5 Focus List</h1>
+            <p className="shield-sub" style={{ color: '#F3E5F5', marginBottom: '10px' }}>Commit to 1 Big, 3 Medium, and 5 Small tasks to conquer your day.</p>
+            
+            <div style={{ display: 'flex', gap: '20px', flex: 1, overflowY: 'auto', textAlign: 'left', paddingBottom: '30px' }}>
+                
+               {/* 1 Big Thing */}
+               <div style={{ flex: 1, background: 'rgba(255,255,255,0.08)', padding: '20px', borderRadius: '15px', display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ color: '#E1BEE7', borderBottom: '2px solid #AB47BC', paddingBottom: '10px', margin: '0 0 15px 0' }}>1 Big Thing</h3>
+                  {tasks.filter(t => t.type === 'big').map(t => (
+                      <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+                         <input type="checkbox" checked={t.done} onChange={() => handleTaskToggle(t.id)} style={{ transform: 'scale(1.5)', cursor: 'pointer' }}/>
+                         <input type="text" value={t.text} onChange={(e) => handleTaskChange(t.id, e.target.value)} placeholder="Crucial task..." 
+                            style={{ width: '100%', padding: '12px', borderRadius: '8px', border: 'none', background: 'rgba(255,255,255,0.9)', 
+                            textDecoration: t.done ? 'line-through' : 'none', opacity: t.done ? 0.6 : 1, fontSize: '1rem', outline: 'none' }} />
+                      </div>
+                  ))}
+               </div>
+
+               {/* 3 Medium Things */}
+               <div style={{ flex: 1, background: 'rgba(255,255,255,0.08)', padding: '20px', borderRadius: '15px', display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ color: '#CE93D8', borderBottom: '2px solid #8E24AA', paddingBottom: '10px', margin: '0 0 15px 0' }}>3 Medium Things</h3>
+                  {tasks.filter(t => t.type === 'med').map(t => (
+                      <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+                         <input type="checkbox" checked={t.done} onChange={() => handleTaskToggle(t.id)} style={{ transform: 'scale(1.3)', cursor: 'pointer' }}/>
+                         <input type="text" value={t.text} onChange={(e) => handleTaskChange(t.id, e.target.value)} placeholder="Important task..." 
+                            style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', background: 'rgba(255,255,255,0.9)',
+                            textDecoration: t.done ? 'line-through' : 'none', opacity: t.done ? 0.6 : 1, fontSize: '0.95rem', outline: 'none' }} />
+                      </div>
+                  ))}
+               </div>
+
+               {/* 5 Small Things */}
+               <div style={{ flex: 1, background: 'rgba(255,255,255,0.08)', padding: '20px', borderRadius: '15px', display: 'flex', flexDirection: 'column' }}>
+                  <h3 style={{ color: '#BA68C8', borderBottom: '2px solid #7B1FA2', paddingBottom: '10px', margin: '0 0 15px 0' }}>5 Small Things</h3>
+                  {tasks.filter(t => t.type === 'small').map(t => (
+                      <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+                         <input type="checkbox" checked={t.done} onChange={() => handleTaskToggle(t.id)} style={{ transform: 'scale(1.1)', cursor: 'pointer' }}/>
+                         <input type="text" value={t.text} onChange={(e) => handleTaskChange(t.id, e.target.value)} placeholder="Quick task..." 
+                            style={{ width: '100%', padding: '8px', borderRadius: '4px', border: 'none', background: 'rgba(255,255,255,0.9)',
+                            textDecoration: t.done ? 'line-through' : 'none', opacity: t.done ? 0.6 : 1, fontSize: '0.9rem', outline: 'none' }} />
+                      </div>
+                  ))}
+               </div>
+
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- UTILITY OVERLAYS --- */}
 
       {/* QUIT CONFIRMATION */}
       {showQuitConfirm && (
