@@ -3,7 +3,6 @@ import './App.css';
 import bgImage from './background.jpg';
 import Assessment from './components/Assessment';
 import Header from './components/Header';
-import Footer from './components/Footer';
 
 // --- LOCAL AUDIO IMPORTS ---
 import birdsChirpingMp3 from './birds-chirping.mp3';
@@ -687,20 +686,6 @@ function App() {
         )}
       </div>
 
-      {/* 3. FOOTER */}{/* 3. FOOTER: Now hidden on the home page gate */}
-      {mode !== 'home' && (
-        <Footer
-          mode={mode}
-          activeTheme={activeTheme}
-          onNavigate={(targetMode) => {
-            transitionTo(() => {
-              setMode(targetMode);
-              setIsAssessing(false);
-              window.scrollTo(0, 0);
-            });
-          }}
-        />
-      )}
 
       {/* 4. ALL OVERLAYS (Keep these inside the wrapper) */}
 
