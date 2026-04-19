@@ -9,9 +9,13 @@ Project Guide -PROF. MOHAMMAD AZIM KHAN  [ Primary Guide ]
 
 
 -- Subject Details --
+
  Class : SE (AI&DS) Div A - 2025-2026
+ 
  Subject : Mini Project (MP)
+ 
  Project Type : Mini Project
+ 
    
 -- Wellbeing Hub 🌱 --
 
