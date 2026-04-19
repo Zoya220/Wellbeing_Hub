@@ -1,3 +1,17 @@
+---👤 Project Members ---
+1. SHAIKH ZOYA AYUB  [ Team Leader ] 
+2. SHAIKH RAHMAT BANO SHAHBUDDIN 
+3. ANSARI SANIA FATMA MOHAMMED HASHIM 
+4. KHAN MUNNAZZAH ALTAF
+
+Project Guides
+PROF. MOHAMMAD AZIM KHAN  [ Primary Guide ]
+
+-- Subject Details --
+ Class : SE (AI&DS) Div A - 2025-2026
+ Subject : Mini Project (MP)
+ Project Type : Mini Project
+   
 -- Wellbeing Hub 🌱 --
 
 Wellbeing Hub is an AI-integrated wellness and personality development platform designed to facilitate early-stage personal growth. By combining mental health modules with professional identity building, the platform provides a holistic approach to self-improvement for the modern student and professional.
@@ -117,17 +131,6 @@ AI Recommendations: Integrate Gemini API for personalized wellness tips.
 Advanced Analytics: Data visualization for user progress tracking.
 
 Mobile Integration: Responsive PWA support for on-the-go training.
-
-
--- 👤 Author --
-
-ZOYA SHAIKH
-
-RAHMAT SHAIKH
-
-MUNNAZZAH KHAN
-
-SANIA ANSARI
 
 
 -- 🏛️ Academic & Technical Note --
