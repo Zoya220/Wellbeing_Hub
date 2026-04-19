@@ -52,15 +52,21 @@ Personalized Redirection: Analyzes real-time scores to suggest the most relevant
 -- 📂 Folder Structure --
 ```
 wellbeing_hub/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── data/
-│   │   └── App.js
-├── backend/
-│   ├── models/
-│   └── server.js
-└── README.md
+├── backend/                # Server-side logic (Node/Express)
+│   ├── models/             # Database schemas
+│   ├── routes/             # API endpoints
+│   └── server.js           # Backend entry point
+└── frontend/               # Client-side logic (React)
+    ├── public/             # Static assets (index.html, manifest.json)
+    ├── src/                # Main React source code
+    │   ├── components/     # UI Components (Assessment, Header)
+    │   ├── data/           # Logic & constants (quizData.js)
+    │   ├── App.css         # Global styling & layout fixes
+    │   ├── App.js          # Root component & routing
+    │   ├── index.js        # React DOM entry point
+    │   └── assets/         # Multimedia (.mp3 & .png files)
+    ├── .gitignore          # Files to exclude from Git
+    ├── package.json        # Frontend dependencies
 ```
 
 
