@@ -4,8 +4,9 @@
 3. ANSARI SANIA FATMA MOHAMMED HASHIM 
 4. KHAN MUNNAZZAH ALTAF
 
-Project Guides
-PROF. MOHAMMAD AZIM KHAN  [ Primary Guide ]
+
+Project Guide -PROF. MOHAMMAD AZIM KHAN  [ Primary Guide ]
+
 
 -- Subject Details --
  Class : SE (AI&DS) Div A - 2025-2026
