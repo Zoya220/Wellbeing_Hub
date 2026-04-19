@@ -21,8 +21,9 @@ const Assessment = ({ mode, onComplete }) => {
         if (step < questions.length - 1) {
             setStep(step + 1);
         } else {
+            // CHANGE THIS: We want the HIGHEST score because high score = high struggle
             const weakest = Object.keys(newScores).reduce((a, b) =>
-                newScores[a] < newScores[b] ? a : b
+                newScores[a] > newScores[b] ? a : b
             );
             onComplete(weakest);
         }
