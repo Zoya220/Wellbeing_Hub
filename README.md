@@ -98,16 +98,16 @@ node server.js
 
 ## 📸 Screenshots
 
-### **The Sanctuary (Dashboard)**
+### **Mind Bloom**
 ![Dashboard](./frontend/image-1.png)
 
-### **Mind Bloom Assessment**
+### **Modules**
 ![Assessment](./frontend/image-2.png)
 
-### **Nature Audio Module**
+### **Identity Bloom**
 ![Nature Audio](./frontend/image-3.png)
 
-### **Identity Bloom**
+### **Modules**
 ![Identity Bloom](./frontend/image-4.png)
 
 -- 🎯 Future Roadmap --
