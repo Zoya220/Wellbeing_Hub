@@ -1,70 +1,127 @@
-# Getting Started with Create React App
+-- Wellbeing Hub 🌱 --
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Wellbeing Hub is an AI-integrated wellness and personality development platform designed to facilitate early-stage personal growth. By combining mental health modules with professional identity building, the platform provides a holistic approach to self-improvement for the modern student and professional.
 
-## Available Scripts
+-- 🚀 Key Features --
 
-In the project directory, you can run:
 
-### `npm start`
+🧠 Mind Bloom (Mental Wellness)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Cognitive Circuit: Focus training and mental sharpness exercises.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Breathing Space: Minimalist respiratory regulation for stress reduction.
 
-### `npm test`
+Meditation Room: High-intensity mindfulness sessions with custom interval timers
+.
+Nature Audio: Environmental soundscapes (Summer Rain, Deep Forest) to anchor focus.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Stress Shield: AI-assisted journaling to filter negative thoughts.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+🎭 Identity Bloom (Personality Growth)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Power Posture: Logic-based confidence training to lower cortisol and boost presence.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Communication: Tools for public speaking and active listening mastery.
 
-### `npm run eject`
+Leadership: Decision-making and delegation training modules.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Time Management: Strategic systems to combat "time anxiety" and clutter.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+📝 Smart Self-Assessment Engine
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Inverted Scoring Logic: A diagnostic 25-question tool that identifies user weaknesses based on "struggle frequency."
 
-## Learn More
+Personalized Redirection: Analyzes real-time scores to suggest the most relevant training module.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-- 🛠️ Tech Stack --
 
-### Code Splitting
+## 🛠️ Tech Stack & Tools
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| Component | Technology | Use Case |
+| :--- | :--- | :--- |
+| **Frontend** | React.js | UI Components & State Management |
+| **Backend** | Node.js / Express | API Handling & Server Logic |
+| **Database** | MongoDB | Storing Wellness Sessions |
+| **Styling** | CSS3 / Lucide Icons | Responsive Design & Visual Feedback |
+| **Logic** | JavaScript (ES6) | Inverted Scoring Assessment Engine |
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+-- 📂 Folder Structure --
+```
+wellbeing_hub/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── data/
+│   │   └── App.js
+├── backend/
+│   ├── models/
+│   └── server.js
+└── README.md
+```
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+-- ⚙️ Installation & Setup --
 
-### Advanced Configuration
+Clone the repository
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+git clone https://github.com/Zoya220/Wellbeing_Hub.git
 
-### Deployment
+Setup Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+cd wellbeing-hub/frontend
 
-### `npm run build` fails to minify
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+npm start
+
+
+Setup Backend
+
+cd ../backend
+
+npm install
+
+node server.js
+
+
+-- 📸 Screenshots --
+
+
+![home page of Wellbeing Hub](image.png)
+
+![Mind Bloom UI](image-1.png)
+
+![Mind Bloom - features & self assessment](image-2.png)
+
+![Identity Bloom UI ](image-3.png)
+
+![Identity Bloom -features & self assessment](image-4.png)
+
+
+-- 🎯 Future Roadmap --
+
+AI Recommendations: Integrate Gemini API for personalized wellness tips.
+
+Advanced Analytics: Data visualization for user progress tracking.
+
+Mobile Integration: Responsive PWA support for on-the-go training.
+
+
+-- 👤 Author --
+
+ZOYA SHAIKH
+
+RAHMAT SHAIKH
+
+MUNNAZZAH KHAN
+
+SANIA ANSARI
+
+
+-- 🏛️ Academic & Technical Note --
+
+This project is a primary submission for the Artificial Intelligence & Data Science (AIDS) Engineering curriculum. It explores the intersection of Behavioral Science and Full-Stack Engineering.
