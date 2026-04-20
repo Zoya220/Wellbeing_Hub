@@ -1,3 +1,8 @@
+> **Abstract** :
+>
+> The AI-Based Mental Wellness and Personality Development Website is an interactive platform that uses artificial intelligence to analyze mood patterns, stress levels, and self-assessments. It provides early insights along with personalized mindfulness, self-help, and personality development tools to promote emotional balance and a healthy mindset.
+
+
 ---👤 Project Members ---
 1. SHAIKH ZOYA AYUB  [ Team Leader ] 
 2. SHAIKH RAHMAT BANO SHAHBUDDIN 
